@@ -1,0 +1,39 @@
+<div class="card m-3">
+  <h6 class="card-header">user-professional-form</h6>
+  <div class="card-body">
+    <form [formGroup]="userProfessionalForm">
+      <div class="form-row">
+        <div class="form-group col">
+          <label>Degree</label>
+          <select formControlName="degree" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.degree.errors }">
+            <option value=""></option>
+            <option value="BE">BE</option>
+            <option value="ME">ME</option>
+          </select>
+          <div *ngIf="submitted && f.degree.errors" class="invalid-feedback">
+            <div *ngIf="f.degree.errors.required">degree is required</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-light mb-2" (click)="addInput()"><i class="fa fa-bars"></i>Add </button>
+
+
+      <div formArrayName="controllerArray">
+        <div class="form-row" *ngFor="let item of userProfessionalForm.get('controllerArray')['controls']; let i=index" [formGroupName]="i">
+          <div class="form-group col-3">
+            <input type="text" class="form-control" placeholder="Skill Name" formControlName="skill" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('skill').errors?.required }">
+              <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('skill').errors?.required">Skill is required</label>
+          </div>
+          <div class="form-group col-3">
+            <input type="number" class="form-control" placeholder="experience in year" formControlName="year" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('year').errors?.required }">
+              <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('year').errors?.required">year is required</label>
+          </div>
+          <button class="btn btn-light mb-1 ml-2" (click)='removeInput(i)'>remove</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
