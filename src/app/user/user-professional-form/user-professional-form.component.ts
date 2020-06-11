@@ -29,12 +29,40 @@ export class UserProfessionalFormComponent implements OnInit {
   createEmpFormGroup() {
     return this.formBuilder.group({
       skill: ['', [Validators.required]],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
       year: ['', [Validators.required]],
     })
   }
 
   addInput() {(this.userProfessionalForm.get('controllerArray') as FormArray).push(
-    this.formBuilder.group({skill: ['', Validators.required], year: ['', Validators.required]})); }
+    this.formBuilder.group({skill: ['', Validators.required], startDate: ['', Validators.required],
+    endDate: ['', Validators.required], year: ['', Validators.required]})); }
+
+
+  onBlurEvent(index){
+    const endData = this.controllerArray.controls[index].get('endDate').value;
+    const startDate = this.controllerArray.controls[index].get('startDate').value;
+    const [diff, years] = this.calculateDateDiff(endData, startDate);
+    debugger
+    if (diff <= 0){
+      this.controllerArray.controls[index].get('endDate').setErrors({greater: true});
+    }
+    this.controllerArray.controls[index].get('year').setValue(years > 0 ? years : 0);
+  }
+
+  calculateDateDiff(endData: string | number | Date, startDate: string | number | Date) {
+    const date1 = new Date(endData);
+    const date2 = new Date(startDate);
+
+    const diff = Math.floor(date1.getTime() - date2.getTime());
+    const day = 1000 * 60 * 60 * 24;
+
+    const days = Math.floor(diff / day);
+    const months = Math.floor(days / 31);
+    const years = Math.floor(months / 12);
+    return [diff, years];
+  }
 
 
   ngOnInit(): void {

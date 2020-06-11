@@ -22,15 +22,28 @@
 
       <div formArrayName="controllerArray">
         <div class="form-row" *ngFor="let item of userProfessionalForm.get('controllerArray')['controls']; let i=index" [formGroupName]="i">
-          <div class="form-group col-3">
+          <div class="form-group col-2">
             <input type="text" class="form-control" placeholder="Skill Name" formControlName="skill" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('skill').errors?.required }">
               <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('skill').errors?.required">Skill is required</label>
           </div>
-          <div class="form-group col-3">
-            <input type="number" class="form-control" placeholder="experience in year" formControlName="year" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('year').errors?.required }">
-              <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('year').errors?.required">year is required</label>
+
+          <div class="form-group col-2">
+            <input type="date" class="form-control" formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('startDate').errors?.required }">
+            <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('startDate').errors?.required">Start date is required</label>
           </div>
-          <button class="btn btn-light mb-1 ml-2" (click)='removeInput(i)'>remove</button>
+
+          <div class="form-group col-2">
+            <input type="date" class="form-control" formControlName="endDate" (blur)="onBlurEvent(i)" [ngClass]="{ 'is-invalid': submitted && controllerArray.controls[i].get('endDate').errors}">
+              <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('endDate').errors?.required">End date is required</label>
+              <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('endDate').errors?.greater">End date is gather than start date</label>
+          </div>
+
+
+          <div class="form-group col-2">
+            <input disabled type="number" class="form-control" formControlName="year">
+              <!-- <label class="invalid-feedback" *ngIf="submitted && controllerArray.controls[i].get('year').errors?.required">year is required</label> -->
+          </div>
+          <button class="btn btn-light mb-1 ml-2 removebtn" (click)='removeInput(i)'>Remove</button>
         </div>
       </div>
 
