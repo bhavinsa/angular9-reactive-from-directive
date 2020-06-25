@@ -1,2 +1,17 @@
 <router-outlet></router-outlet>
-<!-- <div>{{this.estimation | json}}</div> -->
+<p>{{estimationInHours}}</p>
+<div>{{this.estimation | json}}</div>
+
+
+<table>
+  <tr>
+    <th>Task Hours</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  <tr *ngFor="let item of estimation">
+    <td>{{item.hours}}</td>
+    <td>{{item.startDate}}</td>
+    <td>{{item.endDate}}</td>
+  </tr>
+</table>
